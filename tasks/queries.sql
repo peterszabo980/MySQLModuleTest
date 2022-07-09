@@ -32,6 +32,10 @@ Jó munkát!
 
     Elvárt eredmény:
         -1523
+
+    Megoldás:
+    SELECT MIN(IndepYear) FROM `country`;
+
 */
 
 
@@ -44,6 +48,9 @@ Jó munkát!
 
     Elvárt eredmény:
         CHN Code-ú ország (China)
+
+    Megoldás:
+    SELECT * FROM `country` WHERE `IndepYear`=(SELECT MIN(`IndepYear`) FROM country);
 */
 
 
@@ -56,6 +63,9 @@ Jó munkát!
         550 rekord
         ID szerint növekvő sorrendben az első 5 darab: 2, 3, 8, 11, 34
         ID szerint növekvő sorrendben az utolsó 3 darab: 4076, 4078, 4079
+
+    Megoldás:
+    SELECT * FROM `city` WHERE `Name`=`District` ORDER BY `ID` ASC;
 */
 
 
@@ -68,6 +78,9 @@ Jó munkát!
     Elvárt eredmény:
         7 rekord
         országnevek: Bangladesh, Bahrain, Kuwait, Mauritania, Qatar, Sudan, Sierra Leone
+
+    Megoldás:
+    SELECT `Name`, `HeadOfState` FROM `country` WHERE `HeadOfState` LIKE '%Ahmad%' OR `HeadOfState` LIKE '%Ahmed%' OR `HeadOfState` LIKE '%Hamad%';
 */
 
 
@@ -80,6 +93,9 @@ Jó munkát!
     Elvárt eredmény:
         10 rekord
         kontinensek: Oceania (7 db), Europe (2), South America (1)
+
+    Megoldás:
+    SELECT * FROM `country` WHERE `LifeExpectancy` is NULL AND `Population` != '0';
 */
 
 
@@ -91,6 +107,9 @@ Jó munkát!
 
     Elvárt eredmény:
         63 rekord
+
+    Megoldás:
+    SELECT `Code`, `Name`, `GNP`,`GNPOld` FROM `country` WHERE `GNPOld` > `GNP`;
 */
 
 
@@ -102,6 +121,9 @@ Jó munkát!
 
     Elvárt eredmény:
         29 rekord
+
+    Megoldás:
+    SELECT DISTINCT `Language` FROM `countrylanguage` WHERE `Language` LIKE '%ian' ORDER BY `Language` ASC;
 */
 
 
@@ -115,6 +137,9 @@ Jó munkát!
         Southern Europe: 15
         Western Europe: 9
         Eastern Europe 10
+
+    Megoldás:
+    SELECT DISTINCT `Region`, COUNT(*) AS 'number' FROM `country` WHERE `Region` LIKE '%europe%' GROUP by `Region`;
 */
 
 
@@ -129,6 +154,9 @@ Jó munkát!
         239 rekord
         első országkód: AFG
         utolsó országkód: ZWE
+
+    Megoldás:
+    SELECT DISTINCT country.Code as 'Ország kód', country.Name AS 'Ország', city.Name AS 'Főváros' FROM `country` Left JOIN `city` ON country.Capital = city.ID ORDER BY `country`.`Name`;
 */
 
 
@@ -140,6 +168,10 @@ Jó munkát!
     Elvárt eredmény:
         10 rekord
         a városok ID-ja: 61, 62, 1791, 2316, 2317, 2728, 2805, 2806, 3333, 3538
+
+    Megoldás:
+    SELECT * FROM `city` WHERE `Population` < 1000 AND `Population` > 99;
+
 */
 
 
@@ -153,6 +185,10 @@ Jó munkát!
     Elvárt eredmény:
         35 rekord
         országkódok, amelyek szerepelnek a listában: DNK, FIN, FRO, ISL, NOR, SJM, SWE
+
+    Megoldás:
+    SELECT city.* FROM `country` INNER JOIN city WHERE country.Region = 'Nordic Countries' AND country.Code = city.CountryCode;
+
 */
 
 
@@ -168,6 +204,9 @@ Jó munkát!
         19 rekord
         legkisebb: Northern Africa (1)
         legnagyobb: Caribbean (11)
+
+    Megoldás:
+    SELECT `Region`, COUNT(*) AS 'DB' FROM `country` WHERE `IndepYear` < 1500 OR`IndepYear` IS NULL GROUP by `Region` ORDER by COUNT(*) DESC;
 */
 
 
@@ -179,6 +218,9 @@ Jó munkát!
     Elvárt eredmény:
         16 rekord
         országkódok: ABW, ANT, BHR, BRN, COK, DNK, ISL, JPN, KWT, MAC, MCO, MDV, MYS, NOR, PRI, TTO
+
+    Megoldás:
+    SELECT country.* FROM `countrylanguage` INNER JOIN country WHERE country.Code = countrylanguage.CountryCode AND `Language` = 'English' AND `IsOfficial` = 'F' ORDER BY `countrylanguage`.`Language` ASC;
 */
 
 
@@ -190,6 +232,13 @@ Jó munkát!
     Elvárt eredmény:
         7 rekord
         országkódok: ATA, ATF, BVT, HMD, IOT, SGS, UMI
+
+    Megoldás:
+    SELECT country.* FROM `country` WHERE `Capital` is NULL;
+
+    vagy
+
+    SELECT country.* FROM `country` LEFT JOIN `city` ON country.`Code` = city.`CountryCode` WHERE city.`Name` is NULL;
 */
 
 
@@ -201,6 +250,9 @@ Jó munkát!
 
     Elvárt eredmény:
         65 rekord
+
+    Megoldás:
+    SELECT country.Name, country.Continent, country.Region, countrylanguage.Language, countrylanguage.Percentage FROM `country` INNER JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Percentage = 0.0;
 */
 
 
