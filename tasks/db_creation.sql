@@ -44,6 +44,30 @@ Kritériumok az adatbázissal kapcsolatban:
     - az adatbázis, a táblák és a mezők elnevezése rajtad áll, azonban használj angol megnevezéseket, méghozzá következetesen
       (ha az egyik táblában camel-case szerinti mező-neveket adtál, akkor a másik táblában is tégy úgy)
 
+CREATE DATABASE email_sender;
+CREATE TABLE `email_sender` (
+ `id` int(255) NOT NULL AUTO_INCREMENT,
+ `name` varchar(100) NOT NULL,
+ `e_mail` varchar(50) NOT NULL,
+ `password` int(10) NOT NULL,
+ `active_user` enum('T','F') NOT NULL DEFAULT 'F',
+ `reg_time` timestamp NULL DEFAULT current_timestamp(),
+ `e_mail_ID` int(255) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+CREATE TABLE `message` (
+ `sender` varchar(50) NOT NULL,
+ `addressee` varchar(100) NOT NULL,
+ `message_text` text NOT NULL,
+ `message_time` timestamp NOT NULL DEFAULT current_timestamp(),
+ `id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+ALTER TABLE `email_sender` ADD `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+ALTER TABLE `message` ADD FOREIGN KEY (`e_mail_ID`) REFERENCES `email_sender`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
 */
 
 
@@ -54,5 +78,8 @@ Bónusz feladat (5 pont)
 
 Adj hozzá adatokat mindegyik táblához!
 (Az adatoknak nem kell valósnak lenniük. Egy felhasználói email-cím lehet például: 'valami@valami.va')
+INSERT INTO `email_sender`(`name`, `e_mail`, `password`, `active_user`, `reg_time`) VALUES ('Kiss Bála]','kis@ba.la','1234','F','2021-12-12]');
+INSERT INTO `email_sender` (`id`, `name`, `e_mail`, `password`, `active_user`, `reg_time`) VALUES (NULL, 'Nagy Bála', 'nagy@ba.la', '4321', 'T', '2021-05-12 00:00:00');
 
+INSERT INTO `message`(`sender`, `addressee`, `message_text`, `message_time`, `id`) VALUES ('Kiss Bála','nagy@ba.la','Na, elég legyen már ebből','2022-05-12','2');
 */
